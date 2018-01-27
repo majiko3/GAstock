@@ -10,7 +10,7 @@ import pandas as pd
 import random
 import sys
 #import subprocess
-#subprocess.run(['jupyter', 'nbconvert', 
+#subprocess.run(['jupyter', 'nbconvert',
 #                '--to', 'python', 'main.ipynb'])
 #以下自作ライブラリ
 import realcodedGA
@@ -21,9 +21,9 @@ def main():
     #STOCK_NUM = 7974
     print('Read ****.csv (****: stock number)')
     STOCK_NUM = input('Stock number is >> ')
-    
+
     f_dir = 'stock_data/'
-    
+
     fr_name = f_dir + str(STOCK_NUM) + '.csv'
     fw_name = f_dir + str(STOCK_NUM) + '_new.csv'
 
@@ -40,7 +40,7 @@ def main():
     print('Generation loop start.')
     print('Generation: 0. Best fitness: ' + str(best_fit))
     print('Generation: 0. Best individual: ' + str(best_ind))
-    
+
     #sys.exit()
 
     for g in range(N_GEN):
@@ -64,9 +64,9 @@ def main():
         best_ind, best_fit = setBest(pop, fitness)
         print('Generation: ' + str(g+1) + '. Best fitness: ' + str(best_fit))
         print('Generation: ' + str(g+1) + '. Best individual: ' + str(best_ind))
-    
+
     print('\nGeneration loop ended. Best individual: ' + str(best_ind))
-    
+
     max_dev = st.maxDev()
     min_dev = st.minDev()
     print('Entry long or short position if the signal turns on more than three quarters')
@@ -82,22 +82,22 @@ def main():
         Psycho: more than {3}\n \
         Stochas: more than {5}%\n \
         25Dev: more than {7}%\n　\
-        '.format(round(best_ind[0]*100, 2), 
-                 round(best_ind[1]*100, 2), 
-                 best_ind[2], best_ind[3], 
-                 round(best_ind[4]*100, 2), 
+        '.format(round(best_ind[0]*100, 2),
+                 round(best_ind[1]*100, 2),
+                 best_ind[2], best_ind[3],
+                 round(best_ind[4]*100, 2),
                  round(best_ind[5]*100, 2),
-                 round((best_ind[6]*(max_dev-min_dev)+min_dev)*100, 2), 
+                 round((best_ind[6]*(max_dev-min_dev)+min_dev)*100, 2),
                  round((best_ind[7]*(max_dev-min_dev)+min_dev)*100, 2))
          )
-    
+
     BackTest(fr_name, fw_name, best_ind)
-    
+
     #fr_name = f_dir + str(STOCK_NUM) + '_test.csv'
     #fw_name = f_dir + str(STOCK_NUM) + '_test_new.csv'
     #BackTest(fr_name, fw_name, best_ind)
-    
-    
+
+
 def createPop(n_ind, n_gene):
     """
     Create population in random.
@@ -159,7 +159,7 @@ def BackTest(fr_name, fw_name, best_ind):
     st = AnalyseStock.Stock()
     st.read_df(fr_name)
     df = st.set_newdf(fw_name)
-    
+
     tr = AnalyseStock.Trading(df)
     if TRADE_TYPE == 0:
         pafo_list, posi = tr.onlyLong(best_ind)
@@ -167,15 +167,13 @@ def BackTest(fr_name, fw_name, best_ind):
         pafo_list, posi = tr.LongShort(best_ind)
     fit = sum(pafo_list)
     winning_per = len([x for x in pafo_list if x>=0])/len(pafo_list)
-    
+
     print('Back test result: {0}'.format(fit))
     print('The number of trade: {0}'.format(len(pafo_list)))
     print('Winning percentage: {0}%\nMax paformance: {1}\nMinimum paformance: {2}    '.format(round(winning_per*100, 2), max(pafo_list), min(pafo_list)))
-    print(pafo_list)
-    print(posi)
+    #print(pafo_list)
+    #print(posi)
 
-    
+
 if __name__ == '__main__':
     main()
-    
-

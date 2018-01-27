@@ -10,11 +10,11 @@ import subprocess
 
 #initial value
 N_GENE = 8 # The number of genes.
-N_IND = 100 # The number of individuals in a population.
+N_IND = 300 # The number of individuals in a population.
 CXPB = 0.5 # The probability of crossover. 交叉確率
 MUTPB = 0.2 # The probability of individdual mutation. 個体突然変異確率
 MUTINDPB = 0.05 # The probability of gene mutation. 遺伝子突然変異確率
-N_GEN = 20 # The number of generation loop.
+N_GEN = 40 # The number of generation loop.
 
 ALPHA = 0.3 #The constants in BLX-α crossover function.
 
